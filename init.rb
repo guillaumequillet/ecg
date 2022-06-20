@@ -18,7 +18,7 @@ class Window < Gosu::Window
     end
 
     def draw
-        @ecg.draw(10, 10, 48, 24)
+        @ecg.draw(:fine, 10, 10, 48, 24)
     end
 end
 
