@@ -4,6 +4,11 @@ class Ecg
     def initialize
         read_points_data        
         @state = :fine
+        @colors = {
+            fine: Gosu::Color.new(255, 41, 165, 41),
+            caution: Gosu::Color.new(255, 239, 140, 0),
+            danger: Gosu::Color.new(255, 214, 0, 33)
+        }
     end
     
     def read_points_data
@@ -11,13 +16,19 @@ class Ecg
         [:fine].each do |state|
             @points[state] = JSON.parse(File.read("./ecg/#{state.to_s}.json"))
         end
-        p @points[:fine].inspect
+    end
+
+    def update_clip
+        @clip ||= 0.0
+        @clip += 0.03
+        @clip = 0 if @clip >= 1.0
     end
 
     def draw(x, y, scale_x, scale_y)
-        color = Gosu::Color::GREEN
+        update_clip
+        color = @colors[@state]
 
-        Gosu.clip_to(x, y, scale_x, scale_y) do
+        Gosu.clip_to(x, y, scale_x * @clip, scale_y) do
             Gosu.translate(x, y) do
                 Gosu.scale(scale_x, scale_y) do
                     @points[@state].each_with_index do |point, i|

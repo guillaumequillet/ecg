@@ -4,7 +4,7 @@ require_relative 'ecg.rb'
 
 class Window < Gosu::Window
     def initialize
-        super(640, 480, false)
+        super(320, 240, false)
         @ecg = Ecg.new
     end
 
@@ -18,7 +18,7 @@ class Window < Gosu::Window
     end
 
     def draw
-        @ecg.draw(self.mouse_x, self.mouse_y, 200, 100)
+        @ecg.draw(10, 10, 48, 24)
     end
 end
 
